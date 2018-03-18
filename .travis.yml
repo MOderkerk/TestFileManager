@@ -10,7 +10,7 @@ branches:
   - master
 script:  
   - mvn install -DskipTests=false -Dmaven.javadoc.skip=true -Pdeploy  -B 
-  - mvn -Dtag="release" -DaddTimestamp=true scm:tag
+  
 cache:
   directories:
   - $HOME/.m2
@@ -21,3 +21,5 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+after_deploy:    
+   - mvn -Dtag="release" -DaddTimestamp=true scm:tag
