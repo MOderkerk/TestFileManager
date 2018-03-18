@@ -15,12 +15,16 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.Base64Utils;
 
 import de.oderkerk.tools.boot.fileuploader.storage.StorageFileNotFoundException;
 import de.oderkerk.tools.boot.fileuploader.storage.StorageService;
@@ -34,8 +38,13 @@ import de.oderkerk.tools.boot.fileuploader.storage.StorageService;
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest
+@ActiveProfiles("test")
 public class FileUploadTests {
+	@Value("${app.user}")
+	private String user;
 
+	@Value("${app.pw}")
+	private String password;
 	@Autowired
 	private MockMvc mvc;
 
@@ -47,8 +56,10 @@ public class FileUploadTests {
 		given(this.storageService.loadAll("aete", "M00"))
 				.willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
 
-		this.mvc.perform(get("/filter?stage=aete&mandant=M00")).andExpect(status().isOk()).andExpect(model().attribute(
-				"files", Matchers.contains("http://localhost/files/first.txt", "http://localhost/files/second.txt")));
+		this.mvc.perform(get("/filter?stage=aete&mandant=M00").header(HttpHeaders.AUTHORIZATION,
+				"Basic " + Base64Utils.encodeToString((user + ":" + password).getBytes()))).andExpect(status().isOk())
+				.andExpect(model().attribute("files",
+						Matchers.contains("http://localhost/files/first.txt", "http://localhost/files/second.txt")));
 	}
 
 	@Test
@@ -65,7 +76,9 @@ public class FileUploadTests {
 	public void should404WhenMissingFile() throws Exception {
 		given(this.storageService.loadAsResource("test.txt")).willThrow(StorageFileNotFoundException.class);
 
-		this.mvc.perform(get("/files/test.txt")).andExpect(status().isNotFound());
+		this.mvc.perform(get("/files/test.txt").header(HttpHeaders.AUTHORIZATION,
+				"Basic " + Base64Utils.encodeToString((user + ":" + password).getBytes())))
+				.andExpect(status().isNotFound());
 	}
 
 }

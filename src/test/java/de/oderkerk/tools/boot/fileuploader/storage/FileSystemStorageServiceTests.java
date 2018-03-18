@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ActiveProfiles;
 
 /**
  * 
@@ -30,6 +31,7 @@ import org.springframework.mock.web.MockMultipartFile;
  * @since 18.03.2018
  *
  */
+@ActiveProfiles("test")
 public class FileSystemStorageServiceTests {
 
 	private StorageProperties properties = new StorageProperties();
