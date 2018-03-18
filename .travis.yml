@@ -10,17 +10,7 @@ branches:
   - master
 script:  
   - mvn install -DskipTests=false -Dmaven.javadoc.skip=true -Pdeploy  -B 
-  
+  - mvn -Dtag="release" -DaddTimestamp=true scm:tag  
 cache:
   directories:
   - $HOME/.m2
-
-deploy:
-  provider: releases
-  api_key: "li7Av9fXqDlBKV7yQqPiAAsdrr8MdtvcNaNAazD7chUGetSabgtuTMuTyRVz7S6yFDXbghqZ+6oKa6XlrlP5T4Ul6Ftch880t4dGM2C5/WpB7RQjsf4UeeMRRf7nKKrGE91/GUMGubiWv6XcnJQ/MDszaJ0jhVeD/2d7Qq8i5je47vtAC0ksNBMevQgVw27YIh0oEKl6lvg/ryWL9bVaILNHwI0gWVwKlJa6q9eKN/e0G1xj8y9FjtL/wOKCAY+0rKfz64FL1YgMpyVfn03nQK13GfXVR2aI6Wgwu053x2a37J2vfLnSSGheeAZ5n+/06s3wdzteREuhDC2uS/adMOs1lpcLLGfoOSCEkyKcP2mkB4g/ML5hOWCF8Lh3K56m5E6nFNAag2Vj6PQo0WwUS4r8VEXUNCZCB9U7bxOL03MoJ8Mmn3wG+j1DM27DIQKZLkzEC+jcLcAvZ19AY/2oJnr1Xoc+x4KG14qaDTxc/+YPmNZXzfui1eowO4iZMKRtCGkWNcX2SHnTMMsZD4gM1/MCDEb4lH/N+pdE/+1XXnor1dI5n/LqO8qTrcgFPp8adq8NgMeweJEHlUmsfPk6cCEYzw1q1bFMS2SDpDNVWWK645JrakVvfbC3M/JpZYRnPpxmBx5PXnPb2nV7cFjTuPS8P9nxlFw2hDjVaLJ7FEw="  
-  file: target/*.jar
-  skip_cleanup: true
-  on:
-    tags: false
-after_deploy:    
-   - mvn -Dtag="release" -DaddTimestamp=true scm:tag
