@@ -79,4 +79,9 @@
     	<name>Marco Oderkerk</name>
     	<url>https://www.marcooderkerk.de</url>
     </organization>
+    <scm>
+    	<url>https://github.com/MOderkerk/TestFileManager</url>
+    	<connection>https://github.com/MOderkerk/TestFileManager</connection>
+    	<developerConnection>https://github.com/MOderkerk/TestFileManager</developerConnection>
+    </scm>
 </project>
