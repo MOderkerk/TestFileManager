@@ -10,11 +10,3 @@ script:
 cache:
   directories:
   - $HOME/.m2
-deploy:
-     provider: releases
-     api_key: "120d27306552c3969d600468556ef5e3ba27c295"
-     file: 
-         - target/*.jar
-     skip_cleanup: true
-     on:
-     tags: true     
