@@ -1,0 +1,18 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "de.oderkerk.tools.boot.fileuploader.storage.StorageProperties",
+      "name": "storage",
+      "type": "de.oderkerk.tools.boot.fileuploader.storage.StorageProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "de.oderkerk.tools.boot.fileuploader.storage.StorageProperties",
+      "name": "storage.location",
+      "description": "Folder location for storing files",
+      "type": "java.lang.String"
+    }
+  ]
+}

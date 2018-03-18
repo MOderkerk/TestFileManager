@@ -1,0 +1,91 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+      <title>FileAdmin</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+      <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+<body>
+ <div class="jumbotron">
+    <h1 align="center">File Administration</h1>
+ </div>
+  <div class="container-fluid">
+	<div th:if="${message}" class="alert alert-danger">
+		<h2 th:text="${message}"></h2>
+	</div>
+
+	<div class="container-fluid">
+	  
+		<form method="POST" enctype="multipart/form-data" action="/">
+		    <div class="form-group">
+				<label for="file">Datei Upload:</label>
+				<input type="file" name="file" />
+			</div>
+			<!-- <div class="form-group">
+			    <label for="deflateFile">Datei nach dem Upload entpacken </label>
+			    <input type="checkbox" value="deflateFile" name="deflateFile" />
+			</div> -->
+			<div class="form-group">
+			<label>
+			   Stage: 
+			   <select name="stage">
+			   		<option value="aete">aete</option>
+			   		<option value="acceptance">acceptance</option>
+			   		<option value="capacity">capacity</option>
+			   		<option value="test">Test</option>
+			   		<option value="fach">Fach</option>
+			   </select>
+			</label>
+			<label>
+			   Mandant: 
+			   <select name="mandant">
+			   		<option value="M00">00</option>
+			   		<option value="M33">33</option>			   		
+			   </select>
+			</label>
+			</div>
+			<button type="submit" class="btn btn-primary">Upload starten</button>											
+		</form>
+		</div> 
+	</div>
+	<div class="container-fluid">
+	    <h3>Dateianzeige</h3>
+		<form class="form-group" action="/filter" method="get" >
+			<label>
+			   Stage: 
+			   <select name="stage">
+			   		<option value="aete">aete</option>
+			   		<option value="acceptance">acceptance</option>
+			   		<option value="capacity">capacity</option>
+			   		<option value="test">Test</option>
+			   		<option value="fach">Fach</option>
+			   </select>
+			</label>
+			<label>
+			   Mandant: 
+			   <select name="mandant">
+			   		<option value="M00">00</option>
+			   		<option value="M33">33</option>			   		
+			   </select>
+			</label>
+			<button type="submit" class="btn btn-primary">Anzeigen</button>
+			
+		</form> 
+	
+	</div>
+	<div class="col-xs-6 col-sm-4">
+	  	<table class="table table-hover">
+	  	<thead><tr><th>File</th><th>Delete</th><th>Deflate</th></tr></thead>
+			<tr th:each="file : ${files}" >							
+				  <td><a th:href="${file}" th:text="${file}" ></a></td> 
+				  <td><form action="delete" method="post"><input th:type="hidden" th:value="${file}" name="fileToDelete"><button class="glyphicon glyphicon-trash"></button></form></td>
+				  <td><form action="deflate" method="post"><input th:type="hidden" th:value="${file}" name=fileToDeflate><button class="glyphicon glyphicon-share"></button></form></td>	  				  			
+			</tr>
+		</table>
+	</div>
+  
+<script src="/webjars/jquery/3.1.1/jquery.min.js"></script>    
+<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

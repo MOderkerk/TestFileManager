@@ -1,0 +1,8 @@
+de\oderkerk\tools\boot\fileuploader\storage\StorageProperties.class
+de\oderkerk\tools\boot\fileuploader\storage\StorageService.class
+de\oderkerk\tools\boot\fileuploader\FileUploadController.class
+de\oderkerk\tools\boot\fileuploader\storage\StorageFileNotFoundException.class
+de\oderkerk\tools\boot\fileuploader\Application.class
+de\oderkerk\tools\boot\fileuploader\storage\StorageException.class
+META-INF\spring-configuration-metadata.json
+de\oderkerk\tools\boot\fileuploader\storage\FileSystemStorageService.class
