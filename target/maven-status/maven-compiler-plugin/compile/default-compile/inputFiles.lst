@@ -3,6 +3,7 @@ E:\eclipse-ws\FileAdmin\src\main\java\de\oderkerk\tools\boot\fileuploader\securi
 E:\eclipse-ws\FileAdmin\src\main\java\de\oderkerk\tools\boot\fileuploader\FileUploadController.java
 E:\eclipse-ws\FileAdmin\src\main\java\de\oderkerk\tools\boot\fileuploader\storage\StorageException.java
 E:\eclipse-ws\FileAdmin\src\main\java\de\oderkerk\tools\boot\fileuploader\storage\StorageFileNotFoundException.java
+E:\eclipse-ws\FileAdmin\src\main\java\de\oderkerk\tools\boot\fileuploader\security\BasicAuthenticationPoint.java
 E:\eclipse-ws\FileAdmin\src\main\java\de\oderkerk\tools\boot\fileuploader\storage\StorageProperties.java
 E:\eclipse-ws\FileAdmin\src\main\java\de\oderkerk\tools\boot\fileuploader\storage\StorageService.java
 E:\eclipse-ws\FileAdmin\src\main\java\de\oderkerk\tools\boot\fileuploader\security\package-info.java

@@ -1,14 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: de.oderkerk.tools.boot.fileuploader.FileUploadIntegrationTests
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 4.364 s <<< FAILURE! - in de.oderkerk.tools.boot.fileuploader.FileUploadIntegrationTests
-shouldUploadFile(de.oderkerk.tools.boot.fileuploader.FileUploadIntegrationTests)  Time elapsed: 0.007 s  <<< ERROR!
-java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webSecurityConfig': Unsatisfied dependency expressed through field 'authEntryPoint'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.security.web.AuthenticationEntryPoint' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
-Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.security.web.AuthenticationEntryPoint' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
-
-shouldDownloadFile(de.oderkerk.tools.boot.fileuploader.FileUploadIntegrationTests)  Time elapsed: 0 s  <<< ERROR!
-java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webSecurityConfig': Unsatisfied dependency expressed through field 'authEntryPoint'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.security.web.AuthenticationEntryPoint' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
-Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.security.web.AuthenticationEntryPoint' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
-
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.3 s - in de.oderkerk.tools.boot.fileuploader.FileUploadIntegrationTests
