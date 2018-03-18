@@ -91,8 +91,8 @@
     </organization>
     <scm>
     	<url>https://github.com/MOderkerk/TestFileManager</url>
-    	<connection>scm:git:https://f85ad1ddb262326a159e236e53333d3f2fe8ff0b@github.com/MOderkerk/TestFileManager</connection>
-    	<developerConnection>scm:git:https://f85ad1ddb262326a159e236e53333d3f2fe8ff0b@github.com/MOderkerk/TestFileManager</developerConnection>
+    	<connection>scm:git:https://moderkerk:${GH_TOKEN}@github.com/MOderkerk/TestFileManager</connection>
+    	<developerConnection>scm:git:https://moderkerk:${GH_TOKEN}@github.com/MOderkerk/TestFileManager</developerConnection>
     	<tag>master</tag>
     </scm>
 </project>
