@@ -91,7 +91,7 @@
     </organization>
     <scm>
     	<url>https://github.com/MOderkerk/TestFileManager</url>
-    	<connection>https://github.com/MOderkerk/TestFileManager</connection>
-    	<developerConnection>https://github.com/MOderkerk/TestFileManager</developerConnection>
+    	<connection>scm:git:https://github.com/MOderkerk/TestFileManager</connection>
+    	<developerConnection>scm:git:https://github.com/MOderkerk/TestFileManager</developerConnection>
     </scm>
 </project>
