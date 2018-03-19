@@ -14,6 +14,8 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -31,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileSystemStorageService implements StorageService {
 
+	Logger logger = LoggerFactory.getLogger(FileSystemStorageService.class);
 	@Value("${app.uploadfolder}")
 	private String storage;
 	private final Path rootLocation;
@@ -38,6 +41,8 @@ public class FileSystemStorageService implements StorageService {
 	@Autowired
 	public FileSystemStorageService(StorageProperties properties) {
 		this.rootLocation = Paths.get(properties.getLocation());
+		if (logger.isDebugEnabled())
+			logger.debug("Root location ={}", this.rootLocation.toString());
 	}
 
 	@Override
@@ -52,9 +57,10 @@ public class FileSystemStorageService implements StorageService {
 				throw new StorageException(
 						"Cannot store file with relative path outside current directory " + filename);
 			}
-			Files.copy(file.getInputStream(), this.rootLocation.resolve(mandant + "/" + stage + "/" + filename),
+			Files.copy(file.getInputStream(), this.rootLocation.resolve(stage + "/" + mandant + "/imp/" + filename),
 					StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
+			logger.error(e.toString());
 			throw new StorageException("Failed to store file " + filename, e);
 		}
 	}
@@ -62,7 +68,7 @@ public class FileSystemStorageService implements StorageService {
 	@Override
 	public Stream<Path> loadAll(String stage, String mandant) {
 		try {
-			return Files.walk(this.rootLocation.resolve(mandant + "/" + stage + "/"), 10)
+			return Files.walk(this.rootLocation.resolve(stage + "/" + mandant + "/imp/"), 10)
 					.filter(path -> !path.equals(this.rootLocation)).map(path -> this.rootLocation.relativize(path));
 		} catch (IOException e) {
 			throw new StorageException("Failed to read stored files", e);
@@ -98,16 +104,16 @@ public class FileSystemStorageService implements StorageService {
 
 	@Override
 	public void init() {
-		try {
-			Files.createDirectories(rootLocation);
-		} catch (IOException e) {
-			throw new StorageException("Could not initialize storage", e);
-		}
+
 	}
 
 	@Override
 	public void deleteFile(String filename) {
+		if (logger.isDebugEnabled())
+			logger.debug("Start Delete");
 		try {
+			if (logger.isDebugEnabled())
+				logger.debug(storage + "\\" + filename);
 			Files.deleteIfExists(Paths.get(storage + "\\" + filename));
 		} catch (IOException e) {
 			throw new StorageException("Could not delete File ", e);
@@ -117,23 +123,31 @@ public class FileSystemStorageService implements StorageService {
 
 	@Override
 	public void deflateFile(String filename) {
+		if (logger.isDebugEnabled())
+			logger.debug("Deflate File {} ", filename);
 		ZipInputStream zis = null;
 		try {
 
 			String[] parts = filename.split(Pattern.quote("."));
 			String ending = parts[parts.length - 1];
 			File inputFile = new File(storage + "\\" + filename);
+			if (logger.isDebugEnabled())
+				logger.debug("Input File inkl Path {}", inputFile.toString());
 			switch (ending.toLowerCase()) {
 			case "zip":
-
+				if (logger.isDebugEnabled())
+					logger.debug("Zip File found");
 				byte[] buffer = new byte[1024];
 				zis = new ZipInputStream(new FileInputStream(inputFile));
 				ZipEntry zipEntry = zis.getNextEntry();
 				FileOutputStream fos = null;
+				if (logger.isDebugEnabled())
+					logger.debug("Zip Entry : {}", zipEntry.getName());
 				while (zipEntry != null) {
-					String fileName = zipEntry.getName();
-					File newFile = new File(storage + "\\" + fileName);
-
+					String outputFileName = zipEntry.getName();
+					File newFile = new File(inputFile.getParentFile() + "\\" + outputFileName);
+					if (logger.isDebugEnabled())
+						logger.debug("New Filename {}", newFile);
 					try {
 						fos = new FileOutputStream(newFile);
 						int len;
@@ -143,7 +157,7 @@ public class FileSystemStorageService implements StorageService {
 
 						zipEntry = zis.getNextEntry();
 					} catch (IOException e) {
-						System.err.println(e);
+
 						throw e;
 					} finally {
 						if (fos != null)
@@ -162,9 +176,8 @@ public class FileSystemStorageService implements StorageService {
 			default:
 				throw new RuntimeException("File Format not supported");
 			}
-		} catch (
-
-		IOException e) {
+		} catch (IOException e) {
+			logger.error(e.toString());
 			throw new StorageException("Could not deflate File ", e);
 		} finally {
 			if (zis != null)

@@ -58,12 +58,10 @@ public class FileUploadController {
 			@RequestParam("mandant") String mandant) throws IOException {
 		if (logger.isDebugEnabled())
 			logger.debug("listUploadedFiles startet");
-		model.addAttribute("files",
-				storageService.loadAll(stage, mandant)
-						.map(path -> MvcUriComponentsBuilder
-								.fromMethodName(FileUploadController.class, "serveFile", path.getFileName().toString())
-								.build().toString())
-						.collect(Collectors.toList()));
+		model.addAttribute("files", storageService.loadAll(stage, mandant)
+				.map(path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class, "serveFile",
+						stage + "/" + mandant + "/imp/" + path.getFileName().toString()).build().toString())
+				.collect(Collectors.toList()));
 
 		return "uploadForm";
 	}
@@ -72,7 +70,7 @@ public class FileUploadController {
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 		if (logger.isDebugEnabled())
-			logger.debug("serveFile startet");
+			logger.debug("serveFile startet : {}", filename);
 		Resource file = storageService.loadAsResource(filename);
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
@@ -94,8 +92,8 @@ public class FileUploadController {
 	@PostMapping("/delete")
 	public String handleFileDelete(@RequestParam("fileToDelete") String file, RedirectAttributes redirectAttributes) {
 		if (logger.isDebugEnabled())
-			logger.debug("Delete{} startet", file);
-		String[] parts = file.split("/");
+			logger.debug("Delete {} startet", file);
+		String[] parts = file.split("/files");
 
 		storageService.deleteFile(parts[parts.length - 1]);
 		redirectAttributes.addFlashAttribute("message", "You successfully deleted " + file + "!");
@@ -107,7 +105,7 @@ public class FileUploadController {
 	public String handleFileDeflate(@RequestParam("fileToDeflate") String file, RedirectAttributes redirectAttributes) {
 		if (logger.isDebugEnabled())
 			logger.debug("Deflate of {} startet", file);
-		String[] parts = file.split("/");
+		String[] parts = file.split("/files");
 		try {
 			storageService.deflateFile(parts[parts.length - 1]);
 			redirectAttributes.addFlashAttribute("message", "You successfully deflated " + file + "!");

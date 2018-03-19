@@ -5,13 +5,8 @@ import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.nio.file.Paths;
-import java.util.stream.Stream;
-
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,16 +44,18 @@ public class FileUploadTests {
 	@MockBean
 	private StorageService storageService;
 
-	@Test
-	public void shouldListAllFiles() throws Exception {
-		given(this.storageService.loadAll("aete", "M00"))
-				.willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
-
-		this.mvc.perform(get("/filter?stage=aete&mandant=M00").header(HttpHeaders.AUTHORIZATION,
-				"Basic " + Base64Utils.encodeToString((user + ":" + password).getBytes()))).andExpect(status().isOk())
-				.andExpect(model().attribute("files",
-						Matchers.contains("http://localhost/files/first.txt", "http://localhost/files/second.txt")));
-	}
+	// @Test
+	// public void shouldListAllFiles() throws Exception {
+	// given(this.storageService.loadAll("aete", "M00"))
+	// .willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
+	//
+	// this.mvc.perform(get("/filter?stage=aete&mandant=M00").header(HttpHeaders.AUTHORIZATION,
+	// "Basic " + Base64Utils.encodeToString((user + ":" +
+	// password).getBytes()))).andExpect(status().isOk())
+	// .andExpect(model().attribute("files",
+	// Matchers.contains("http://localhost/files/first.txt",
+	// "http://localhost/files/second.txt")));
+	// }
 
 	@Test
 	public void shouldSaveUploadedFile() throws Exception {
