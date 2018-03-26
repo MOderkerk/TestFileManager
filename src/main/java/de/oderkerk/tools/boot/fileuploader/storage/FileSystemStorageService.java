@@ -113,8 +113,8 @@ public class FileSystemStorageService implements StorageService {
 			logger.debug("Start Delete");
 		try {
 			if (logger.isDebugEnabled())
-				logger.debug(storage + "\\" + filename);
-			Files.deleteIfExists(Paths.get(storage + "\\" + filename));
+				logger.debug(storage + "/" + filename);
+			Files.deleteIfExists(Paths.get(storage + "/" + filename));
 		} catch (IOException e) {
 			throw new StorageException("Could not delete File ", e);
 		}
@@ -130,7 +130,7 @@ public class FileSystemStorageService implements StorageService {
 
 			String[] parts = filename.split(Pattern.quote("."));
 			String ending = parts[parts.length - 1];
-			File inputFile = new File(storage + "\\" + filename);
+			File inputFile = new File(storage + "/" + filename);
 			if (logger.isDebugEnabled())
 				logger.debug("Input File inkl Path {}", inputFile.toString());
 			switch (ending.toLowerCase()) {
@@ -145,7 +145,7 @@ public class FileSystemStorageService implements StorageService {
 					logger.debug("Zip Entry : {}", zipEntry.getName());
 				while (zipEntry != null) {
 					String outputFileName = zipEntry.getName();
-					File newFile = new File(inputFile.getParentFile() + "\\" + outputFileName);
+					File newFile = new File(inputFile.getParentFile() + "/" + outputFileName);
 					if (logger.isDebugEnabled())
 						logger.debug("New Filename {}", newFile);
 					try {
