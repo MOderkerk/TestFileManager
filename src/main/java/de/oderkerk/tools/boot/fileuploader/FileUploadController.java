@@ -59,7 +59,7 @@ public class FileUploadController {
 		if (logger.isDebugEnabled())
 			logger.debug("listUploadedFiles startet");
 		model.addAttribute("files", storageService.loadAll(stage, mandant)
-				.map(path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class, "serveFile",
+				.map(path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class, "serveFilex",
 						stage + "/" + mandant + "/imp/" + path.getFileName().toString()).build().toString())
 				.collect(Collectors.toList()));
 
@@ -68,10 +68,22 @@ public class FileUploadController {
 
 	@GetMapping("/files/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+	public ResponseEntity<Resource> serveFilex(@PathVariable String filename) {
 		if (logger.isDebugEnabled())
 			logger.debug("serveFile startet : {}", filename);
 		Resource file = storageService.loadAsResource(filename);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+				.body(file);
+	}
+
+	@GetMapping("/download")
+	@ResponseBody
+	public ResponseEntity<Resource> serveFile(@RequestParam("fileToDownload") String filename) {
+		if (logger.isDebugEnabled())
+			logger.debug("serveFile startet : {}", filename);
+		String[] parts = filename.split("/files");
+		Resource file = storageService.loadAsResource(parts[parts.length - 1]);
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);

@@ -83,8 +83,12 @@ public class FileSystemStorageService implements StorageService {
 
 	@Override
 	public Resource loadAsResource(String filename) {
+
 		try {
-			Path file = load(filename);
+			// Path file = load(this.rootLocation.resolve(filename).toString());
+			Path file = Paths.get(storage + "/" + filename);
+			if (logger.isDebugEnabled())
+				logger.debug("FileToLoad " + file.toString());
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;

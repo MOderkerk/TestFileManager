@@ -77,11 +77,12 @@
 	</div>
 	<div class="col-xs-6 col-sm-4">
 	  	<table class="table table-hover">
-	  	<thead><tr><th>File</th><th>Delete</th><th>Deflate</th></tr></thead>
+	  	<thead><tr><th>File</th><th>Delete</th><th>Deflate</th><th>Download</th></tr></thead>
 			<tr th:each="file : ${files}" >							
 				  <td><a  th:text="${file}" ></a></td> 
 				  <td><form action="delete" method="post"><input th:type="hidden" th:value="${file}" name="fileToDelete"><button class="glyphicon glyphicon-trash"></button></form></td>
-				  <td><form action="deflate" method="post"><input th:type="hidden" th:value="${file}" name=fileToDeflate><button class="glyphicon glyphicon-share"></button></form></td>	  				  			
+				  <td><form action="deflate" method="post"><input th:type="hidden" th:value="${file}" name="fileToDeflate"><button class="glyphicon glyphicon-share"></button></form></td>
+				  <td><form action="download" method="get" target="_blank"><input th:type="hidden" th:value="${file}" name="fileToDownload"><button class="glyphicon glyphicon-download"></button></form>	  				  			
 			</tr>
 		</table>
 	</div>
