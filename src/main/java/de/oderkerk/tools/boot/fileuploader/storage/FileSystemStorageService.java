@@ -173,8 +173,23 @@ public class FileSystemStorageService implements StorageService {
 				}
 
 				break;
-			case "7z":
-				break;
+			case "gz":
+				try {
+					ProcessBuilder builder = new ProcessBuilder();
+					builder.command("sh", "-c", "gunzip", filename);
+					Path file = Paths.get(storage + "/" + filename);
+					builder.directory(inputFile.getParentFile());
+					Process process = builder.start();
+
+					int exitCode;
+
+					exitCode = process.waitFor();
+					assert exitCode == 0;
+					break;
+				} catch (InterruptedException e) {
+					throw new RuntimeException("Aktion auf Serverseite abgebrochen");
+				}
+
 			case "tar":
 				break;
 			default:
